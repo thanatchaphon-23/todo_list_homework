@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<%= asset_path 'application.css' %>">
+    <title>TODO List</title>
+</head>
+<body>
+
+<div class="todo-container">
+
+    <!-- ชื่อของหน้า (title) -->
+    <h1>TODO LISTS</h1>
+    
+
+    <!-- Input สำหรับเพิ่มงานใหม่ -->
+    <div class="input-group">
+        <%= form_with(model: Todo.new, local: true) do |form| %>
+          <%= form.text_field :content, placeholder: "Name", class: "todo-input" %>
+          <%= form.submit "Create Todo", class: "create-todo" %>
+        <% end %>
+    </div>
+
+    <!-- แสดงรายการ Todos -->
+    <ul class="todo-list">
+        <% @todos.each do |todo| %>
+            <li class="todo-item <%= 'completed' if todo.completed %>" id="todo-<%= todo.id %>">
+                <%= form_with(model: todo,remote: true) do |form| %>
+                    <%= form.check_box :completed, onchange: 'this.form.submit()', class: "todo-checkbox" %>
+                <% end %>
+                <span class="todo-content"><%= todo.content %></span>
+                <%= button_to "Delete", todo_path(todo), method: :delete, remote: true, class: "delete-todo" %>
+            </li>
+        <% end %>
+    </ul>
+    
+</div>
+
+</body>
+</html>
+
