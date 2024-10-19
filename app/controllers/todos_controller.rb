@@ -17,6 +17,7 @@ class TodosController < ApplicationController
 
   # GET /todos/1/edit
   def edit
+    @todo = Todo.find(params[:id])
   end
 
   # POST /todos or /todos.json
@@ -36,11 +37,12 @@ class TodosController < ApplicationController
   # PATCH/PUT /todos/1 or /todos/1.json
   def update
     @todo = Todo.find(params[:id])
-    @todo.update(todo_params)
-    respond_to do |format|
-      format.html { redirect_to todos_path }
+    if @todo.update(todo_params)
+        redirect_to todos_path, notice: "Todo updated successfully!"
+    else
+        render :edit
     end
-  end
+end
 
   # DELETE /todos/1 or /todos/1.json
   def destroy

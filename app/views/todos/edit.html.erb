@@ -1,12 +1,31 @@
 <% content_for :title, "Editing todo" %>
 
-<h1>Editing todo</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<%= asset_path 'application.css' %>">
+    <title>Edit Todo</title>
+</head>
+<body>
 
-<%= render "form", todo: @todo %>
+<div class="edit-todo-container">
+    <h1>Edit Todo</h1>
 
-<br>
+    <%= form_with(model: @todo, url: todo_path(@todo), method: :patch) do |form| %>
+        <div class="input-group">
+            <%= form.label :content, "Todo Name", class: "todo-label" %>
+            <%= form.text_field :content, value: @todo.content, class: "todo-input" %>
+        </div>
 
-<div>
-  <%= link_to "Show this todo", @todo %> |
-  <%= link_to "Back to todos", todos_path %>
+        <div class="actions">
+            <%= form.submit "Save Changes", class: "save-todo" %>
+            <%= link_to "Cancel", todos_path, class: "cancel-btn" %>
+        </div>
+    <% end %>
 </div>
+
+
+</body>
+</html>

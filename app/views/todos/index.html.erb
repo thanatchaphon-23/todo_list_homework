@@ -18,23 +18,26 @@
     <div class="input-group">
         <%= form_with(model: Todo.new, local: true) do |form| %>
           <%= form.text_field :content, placeholder: "Name", class: "todo-input" %>
-          <%= form.submit "Create Todo", class: "create-todo" %>
+          <%= form.submit "Create Todo", class: "create-todo createbox" %>
         <% end %>
     </div>
 
     <!-- แสดงรายการ Todos -->
     <ul class="todo-list">
-        <% @todos.each do |todo| %>
-            <li class="todo-item <%= 'completed' if todo.completed %>" id="todo-<%= todo.id %>">
-                <%= form_with(model: todo,remote: true) do |form| %>
-                    <%= form.check_box :completed, onchange: 'this.form.submit()', class: "todo-checkbox" %>
-                <% end %>
-                <span class="todo-content"><%= todo.content %></span>
+    <% @todos.each do |todo| %>
+        <li class="todo-item <%= 'completed' if todo.completed %>" id="todo-<%= todo.id %>">
+            <%= form_with(model: todo, remote: true) do |form| %>
+                <%= form.check_box :completed, onchange: 'this.form.submit()', class: "todo-checkbox" %>
+            <% end %>
+            <span class="todo-content"><%= todo.content %></span>
+            <div class="button-group">
+                <%= link_to "Edit", edit_todo_path(todo), class: "edit-todo" %>
                 <%= button_to "Delete", todo_path(todo), method: :delete, remote: true, class: "delete-todo" %>
-            </li>
-        <% end %>
-    </ul>
-    
+</          </div>
+        </li>
+    <% end %>
+</ul>
+   
 </div>
 
 </body>
